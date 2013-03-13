@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Argon GeoSpot Demo</title>
+        <title>Argon Sound Demo</title>
         <link rel="stylesheet" href="jslog.css" />
         <link rel="apple-touch-icon" href="images/sample_icon_57x57.png" />
         <meta charset="utf-8">
@@ -13,15 +13,17 @@
                 
                 onArgonReady : function()
                 {
-
+                    var urls = []; // sounds go here
                 }
+
+                // do something with vars
             };
             
         document.addEventListener("AR.ArgonReadyEvent", myAppController.onArgonReady);
       
         </script>
     </head>
-    
+
     <body>
         <div style="background-color: green; width: 100px; height: 100px;">test</div>
         <script src="http://argon.gatech.edu/argon_o.js"></script>
