@@ -9,7 +9,7 @@
     </head>
 
     <body>
-        <div id="sound-start" style="background-color: green; text-align: center; color: white; line-height: 100px; width: 100px; height: 100px;">test</div>
+        <div id="sound-start" style="background-color: red; text-align: center; color: white; line-height: 100px; width: 100px; height: 100px;">test</div>
 
         <script src="http://argon.gatech.edu/argon_o.js"></script>
 
@@ -28,7 +28,7 @@
             };
 
             document.addEventListener("AR.ArgonReadyEvent", myAppController.onArgonReady);
-            document.getElementById('sound-start').addEventListener("click", function(){
+            document.getElementById('sound-start').addEventListener("touchstart", function(){
               // Finally
                 playSound();
                 document.getElementById('sound-start').style.background = "blue";
@@ -63,6 +63,7 @@
 
                 // Our asynchronous callback
                 request.onload = function() {
+                    document.getElementById('sound-start').style.background = "#6F6";
                     var audioData = request.response;
                     audioGraph(audioData);
                 };
