@@ -21,20 +21,65 @@
 
             document.addEventListener("AR.ArgonReadyEvent", myAppController.onArgonReady);
 
-            //var audio = document.getElementById("audio'");
-            //audio.play();
+
+            var context
+            if (typeof AudioContext !== "undefined") {
+              context = new AudioContext();
+            } else if (typeof webkitAudioContext !== "undefined") {
+              context = new webkitAudioContext();
+            }
+
+            var soundBuffer; //buffer to use
+            loadSound("audio/roost.mp3"); //puts sound into buffer
+
+            function loadSound(url) {
+              var request = new XMLHttpRequest();
+              request.open('GET', url, true);
+              request.responseType = 'arraybuffer';
+
+              // Decode asynchronously
+              request.onload = function() {
+                context.decodeAudioData(request.response, function(buffer) {
+                  soundBuffer = buffer;
+                  console.log(arguments)
+                  playSound(soundBuffer); //play when loaded
+                }, function() {
+                  console.error('Error!');
+                });
+              }
+              request.send();
+            }
 
 
+            function _watch(){
+              console.log(context.destination);
+              window.webkitRequestAnimationFrame(_watch)
+            }
+
+            function playSound(buffer) {
+              var source = context.createBufferSource(), // creates a sound source
+
+              //Set the volume
+              volumeNode = context.createGainNode();
+              volumeNode.gain.value = 0.9;
+
+              // Wiring
+              source.connect(volumeNode);
+              volumeNode.connect(context.destination);
+
+
+              _watch()
+              source.noteOn(0); // when the source should start playing
+              source.connect(context.destination); //connect source to destination, allows it to play 
+            }
         </script>
     </head>
 
     <body>
         <div style="background-color: green; width: 100px; height: 100px;">test</div>
-        <!-- audio -->
-        <audio id="audio" preload="auto" controls>
-            <source src="https://www.prism.gatech.edu/~blyle6/roost.mp3" type="audio/mpeg" />
-        </audio>
+<!--
         <script src="http://argon.gatech.edu/argon_o.js"></script>
+-->
     </body>
 
 
