@@ -39,7 +39,6 @@
                     } else {
                         throw new Error('AudioContext not supported. :(');
                     }
-                    startSound();
                 }
 
                 // Step 2: Load our Sound using XHR
@@ -104,10 +103,10 @@
     </head>
 
     <body>
-        <div style="background-color: green; width: 100px; height: 100px;">test</div>
-<!--
+        <div style="background-color: green; width: 100px; height: 100px;" onClick="startSound();">test</div>
+
         <script src="http://argon.gatech.edu/argon_o.js"></script>
--->
+
     </body>
 
 
