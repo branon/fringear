@@ -9,7 +9,7 @@
     </head>
 
     <body>
-        <div id="sound-start" style="background-color: red; text-align: center; color: white; line-height: 100px; width: 100px; height: 100px; cursor: pointer;">test</div>
+        <div id="sound-start" style="background-color: #a00; text-align: center; color: white; line-height: 100px; width: 100px; height: 100px; cursor: pointer; border: 3px solid rgba(0, 0, 0, .1); font-weight: 400; text-transform: uppercase; font-family: 'Helvetica Neue', 'Helvetica', arial, sans-serif; text-shadow: 0 0 1px #111">test</div>
 
         <script src="http://argon.gatech.edu/argon_o.js"></script>
 
@@ -30,7 +30,7 @@
             var startThatShit = function(){
               // Finally
                 playSound();
-                document.getElementById('sound-start').style.background = "blue";
+                document.getElementById('sound-start').style.background = "#00c";
             }
 
 
@@ -70,7 +70,7 @@
 
                 // Our asynchronous callback
                 request.onload = function() {
-                    document.getElementById('sound-start').style.background = "#6F6";
+                    document.getElementById('sound-start').style.background = "#060";
                     var audioData = request.response;
                     audioGraph(audioData);
                 };
