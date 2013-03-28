@@ -35,6 +35,7 @@
 
 
             document.addEventListener("AR.ArgonReadyEvent", myAppController.onArgonReady);
+            document.getElementById('sound-start').addEventListener("touch", startThatShit);
             document.getElementById('sound-start').addEventListener("touchstart", startThatShit);
             document.getElementById('sound-start').addEventListener("click", startThatShit);
 
