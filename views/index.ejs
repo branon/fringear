@@ -6,7 +6,15 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
         <meta name="arenabled" />
-        <script>
+    </head>
+
+    <body>
+        <div id="sound-start" style="background-color: green; text-align: center; color: white; line-height: 100px; width: 100px; height: 100px;">test</div>
+
+        <script src="http://argon.gatech.edu/argon_o.js"></script>
+
+
+<script>
             var myAppController =
             {
 
@@ -20,92 +28,82 @@
             };
 
             document.addEventListener("AR.ArgonReadyEvent", myAppController.onArgonReady);
+            document.getElementById('sound-start').addEventListener("click", function(){
+              // Finally
+                playSound();
+                document.getElementById('sound-start').style.background = "blue";
+            });
 
+            var context
+              , soundSource
+              , soundBuffer
+              , url = 'audio/roost.mp3';
 
-            (function() {
-                var context
-                  , soundSource
-                  , soundBuffer
-                  , url = 'audio/roost.mp3';
+            // Step 1 - Initialise the Audio Context
+            // There can be only one!
 
-                // Step 1 - Initialise the Audio Context
-                // There can be only one!
-
-                function init() {
-                    if (typeof AudioContext !== "undefined") {
-                        context = new AudioContext();
-                    } else if (typeof webkitAudioContext !== "undefined") {
-                        context = new webkitAudioContext();
-                    } else {
-                        throw new Error('AudioContext not supported. :(');
-                    }
+            function init() {
+                if (typeof AudioContext !== "undefined") {
+                    context = new AudioContext();
+                } else if (typeof webkitAudioContext !== "undefined") {
+                    context = new webkitAudioContext();
+                } else {
+                    throw new Error('AudioContext not supported. :(');
                 }
+                startSound();
+            }
 
-                // Step 2: Load our Sound using XHR
+            // Step 2: Load our Sound using XHR
 
-                function startSound() {
-                    // Note: this loads asynchronously
-                    var request = new XMLHttpRequest();
-                    request.open("GET", url, true);
-                    request.responseType = "arraybuffer";
+            function startSound() {
+                // Note: this loads asynchronously
+                var request = new XMLHttpRequest();
+                request.open("GET", url, true);
+                request.responseType = "arraybuffer";
 
-                    // Our asynchronous callback
-                    request.onload = function() {
-                        var audioData = request.response;
+                // Our asynchronous callback
+                request.onload = function() {
+                    var audioData = request.response;
+                    audioGraph(audioData);
+                };
 
-                        audioGraph(audioData);
+                request.send();
+            }
 
+            // Finally: tell the source when to start
 
-                    };
+            function playSound() {
+                // play the source now
+                soundSource.noteOn(context.currentTime);
+            }
 
-                    request.send();
-                }
+            function stopSound() {
+                // stop the source now
+                soundSource.noteOff(context.currentTime);
+            }
 
-                // Finally: tell the source when to start
+            // This is the code we are interested in:
+            function audioGraph(audioData) {
+                soundSource = context.createBufferSource();
+                soundBuffer = context.createBuffer(audioData, true);
+                soundSource.buffer = soundBuffer;
 
-                function playSound() {
-                    // play the source now
-                    soundSource.noteOn(context.currentTime);
-                }
+                volumeNode = context.createGainNode();
 
-                function stopSound() {
-                    // stop the source now
-                    soundSource.noteOff(context.currentTime);
-                }
+                //Set the volume
+                volumeNode.gain.value = 0.9;
 
-                // This is the code we are interested in:
-                function audioGraph(audioData) {
-                    soundSource = context.createBufferSource();
-                    soundBuffer = context.createBuffer(audioData, true);
-                    soundSource.buffer = soundBuffer;
+                // Wiring
+                soundSource.connect(volumeNode);
+                volumeNode.connect(context.destination);
 
-                    volumeNode = context.createGainNode();
-
-                    //Set the volume
-                    volumeNode.gain.value = 0.9;
-
-                    // Wiring
-                    soundSource.connect(volumeNode);
-                    volumeNode.connect(context.destination);
-
-                    console.log(context.destination);
-
-                    // Finally
-                    playSound(soundSource);
-                }
+            }
 
 
-                init();
+            init();
 
-
-            }());
         </script>
-    </head>
 
-    <body>
-        <div style="background-color: green; width: 100px; height: 100px;" onClick="startSound();">test</div>
-
-        <script src="http://argon.gatech.edu/argon_o.js"></script>
 
     </body>
 
