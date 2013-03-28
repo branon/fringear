@@ -43,7 +43,8 @@
             var context
               , soundSource
               , soundBuffer
-              , url = 'audio/roost.mp3';
+              , url = 'audio/roost.mp3'
+              , panner
 
             // Step 1 - Initialise the Audio Context
             // There can be only one!
@@ -79,9 +80,14 @@
 
 
             function _watch(){
+              var s = 8 * (Math.cos(Math.PI*(context.currentTime%10)/5))
+              var c = 8 * (Math.sin(Math.PI*(context.currentTime%10)/5))
               window.webkitRequestAnimationFrame(_watch);
-              volumeNode.gain.value = ((context.currentTime%10)/10);
-              console.log(volumeNode.gain.value)
+              // z = front/back
+              // y = up/down?
+              // x = left/right ( left is negative )
+              /// (x, y, z)
+              panner.setPosition(c, 0, s);
             }
 
 
@@ -107,11 +113,15 @@
                 volumeNode = context.createGainNode();
 
                 //Set the volume
-                volumeNode.gain.value = 0.9;
+                volumeNode.gain.value = 0.90;
+
+                // Panning
+                panner = context.createPanner();
 
                 // Wiring
                 soundSource.connect(volumeNode);
-                volumeNode.connect(context.destination);
+                volumeNode.connect(panner);
+                panner.connect(context.destination);
 
             }
 
