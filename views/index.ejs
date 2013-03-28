@@ -80,8 +80,9 @@
 
 
             function _watch(){
-              var s = 8 * (Math.cos(Math.PI*(context.currentTime%10)/5))
-              var c = 8 * (Math.sin(Math.PI*(context.currentTime%10)/5))
+              var d = 20,
+                , s = d * (Math.cos(Math.PI*(context.currentTime%10)/5))
+                , c = d * (Math.sin(Math.PI*(context.currentTime%10)/5))
               window.webkitRequestAnimationFrame(_watch);
               // z = front/back
               // y = up/down?
