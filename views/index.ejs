@@ -22,56 +22,84 @@
             document.addEventListener("AR.ArgonReadyEvent", myAppController.onArgonReady);
 
 
-            var context
-            if (typeof AudioContext !== "undefined") {
-              context = new AudioContext();
-            } else if (typeof webkitAudioContext !== "undefined") {
-              context = new webkitAudioContext();
-            }
+            (function() {
+                var context
+                  , soundSource
+                  , soundBuffer
+                  , url = 'audio/roost.mp3';
 
-            var soundBuffer; //buffer to use
-            loadSound("audio/roost.mp3"); //puts sound into buffer
+                // Step 1 - Initialise the Audio Context
+                // There can be only one!
 
-            function loadSound(url) {
-              var request = new XMLHttpRequest();
-              request.open('GET', url, true);
-              request.responseType = 'arraybuffer';
+                function init() {
+                    if (typeof AudioContext !== "undefined") {
+                        context = new AudioContext();
+                    } else if (typeof webkitAudioContext !== "undefined") {
+                        context = new webkitAudioContext();
+                    } else {
+                        throw new Error('AudioContext not supported. :(');
+                    }
+                    startSound();
+                }
 
-              // Decode asynchronously
-              request.onload = function() {
-                context.decodeAudioData(request.response, function(buffer) {
-                  soundBuffer = buffer;
-                  console.log(arguments)
-                  playSound(soundBuffer); //play when loaded
-                }, function() {
-                  console.error('Error!');
-                });
-              }
-              request.send();
-            }
+                // Step 2: Load our Sound using XHR
 
+                function startSound() {
+                    // Note: this loads asynchronously
+                    var request = new XMLHttpRequest();
+                    request.open("GET", url, true);
+                    request.responseType = "arraybuffer";
 
-            function _watch(){
-              console.log(context.destination);
-              window.webkitRequestAnimationFrame(_watch)
-            }
+                    // Our asynchronous callback
+                    request.onload = function() {
+                        var audioData = request.response;
 
-            function playSound(buffer) {
-              var source = context.createBufferSource(), // creates a sound source
-
-              //Set the volume
-              volumeNode = context.createGainNode();
-              volumeNode.gain.value = 0.9;
-
-              // Wiring
-              source.connect(volumeNode);
-              volumeNode.connect(context.destination);
+                        audioGraph(audioData);
 
 
-              _watch()
-              source.noteOn(0); // when the source should start playing
-              source.connect(context.destination); //connect source to destination, allows it to play 
-            }
+                    };
+
+                    request.send();
+                }
+
+                // Finally: tell the source when to start
+
+                function playSound() {
+                    // play the source now
+                    soundSource.noteOn(context.currentTime);
+                }
+
+                function stopSound() {
+                    // stop the source now
+                    soundSource.noteOff(context.currentTime);
+                }
+
+                // This is the code we are interested in:
+                function audioGraph(audioData) {
+                    soundSource = context.createBufferSource();
+                    soundBuffer = context.createBuffer(audioData, true);
+                    soundSource.buffer = soundBuffer;
+
+                    volumeNode = context.createGainNode();
+
+                    //Set the volume
+                    volumeNode.gain.value = 0.9;
+
+                    // Wiring
+                    soundSource.connect(volumeNode);
+                    volumeNode.connect(context.destination);
+
+                    console.log(context.destination);
+
+                    // Finally
+                    playSound(soundSource);
+                }
+
+
+                init();
+
+
+            }());
         </script>
     </head>
 
