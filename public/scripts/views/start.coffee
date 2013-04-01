@@ -30,7 +30,7 @@ define(['jQuery'
 
 
     start: ->
-      return stop() if @started
+      return @stop() if @started
       @started = true
       @stopping = false;
       @sound.loop(true).volume(0.3).play()
