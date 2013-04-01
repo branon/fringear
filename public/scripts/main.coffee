@@ -53,7 +53,10 @@ require(
       )(window, document)
 
 
+
+
       $(document).ready () ->
         app.start()
+        setTimeout((() -> window.scrollTo(1, 0)), 250)
 )
 

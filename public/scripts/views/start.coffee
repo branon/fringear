@@ -89,6 +89,13 @@ define(['jQuery'
       @ctx.strokeStyle = "rgba(236, 182, 0, 1)";
       @ctx.stroke()
 
+      if not @started
+        @ctx.textAlign = 'center'
+        @ctx.font = "14pt Helvetica";
+        @ctx.fillStyle = "rgba(255, 255, 255, 1)";
+        @ctx.fillText "Press To Start", @canvas.width/2, @canvas.height/2 + 7
+        @ctx.strokeStyle = "rgba(255, 255, 255, 1)";
+        @ctx.strokeText "Press To Start", @canvas.width/2, @canvas.height/2 + 7
 
 
     teardown: ->
