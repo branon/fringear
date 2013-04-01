@@ -16,11 +16,8 @@ define(['jQuery'
       @sound.load 'audio/techno.mp3', () =>
         loading.remove()
         @render()
-      , (err) =>
+      , (err) ->
         console.log(err);
-        $('body').append('<span>FAIL'+arguments.length+'</span>')
-        for prop, val of err
-          $('body').append('<div>'+prop+": "+val+'</div>')
 
 
     render: ->
