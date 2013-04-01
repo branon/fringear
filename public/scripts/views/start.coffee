@@ -30,6 +30,8 @@ define(['jQuery'
 
 
     start: ->
+      return if @started
+      @started = true
       @$el.addClass('stop').removeClass('start')
       @stopping = false;
       @sound.loop(true).volume(0.3).play()
