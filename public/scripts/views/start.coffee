@@ -6,13 +6,12 @@ define(['jQuery'
 
   class StartView extends Backbone.View
 
-    className: 'start-view'
+    className: 'start-view start'
 
     initialize: ->
       _.bindAll @
       @template = _.template(templateText)
       @render()
-      @start()
 
 
 
@@ -29,6 +28,7 @@ define(['jQuery'
 
 
     start: ->
+      @$el.addClass('stop').removeClass('start')
       @stopping = false;
       @sound = app.audio.createSound()
       @sound.load 'audio/techno.mp3', (sound) ->
@@ -37,7 +37,8 @@ define(['jQuery'
 
 
     events:
-      'click .start': 'stop'
+      'click': 'start'
+      'click .round': 'stop'
 
     stop: ->
       @stopping = true;
