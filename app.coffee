@@ -22,6 +22,7 @@ require('./lib/error-handler').boot(app);
 controller_loc = __dirname + '/controllers'
 controller_files = (require 'fs').readdirSync controller_loc
 controller_files.forEach (file) ->
+  console.log 'here', file
   (require controller_loc + '/' + file)(app)
 
 

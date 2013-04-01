@@ -6,130 +6,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
         <meta name="arenabled" />
+        <link rel="stylesheet" type="text/css" href="/styles/main.css" />
+
     </head>
 
     <body>
-        <div id="sound-start" style="background-color: #a00; text-align: center; color: white; line-height: 100px; width: 100px; height: 100px; cursor: pointer; border: 3px solid rgba(0, 0, 0, .1); font-weight: 400; text-transform: uppercase; font-family: 'Helvetica Neue', 'Helvetica', arial, sans-serif; text-shadow: 0 0 1px #111">test</div>
+
+        <div id="app-container"></div>
 
         <script src="http://argon.gatech.edu/argon_o.js"></script>
-
-
-<script>
-            var myAppController =
-            {
-
-                onArgonReady : function()
-                {
-                    var urls = []; // sounds go here
-
-                }
-
-                // do something with vars
-            };
-
-            var startThatShit = function(){
-              // Finally
-                playSound();
-                document.getElementById('sound-start').style.background = "#00c";
-            }
-
-
-            document.addEventListener("AR.ArgonReadyEvent", myAppController.onArgonReady);
-            document.getElementById('sound-start').addEventListener("touch", startThatShit);
-            document.getElementById('sound-start').addEventListener("touchstart", startThatShit);
-            document.getElementById('sound-start').addEventListener("click", startThatShit);
-
-
-            var context
-              , soundSource
-              , soundBuffer
-              , url = 'audio/roost.mp3'
-              , panner
-
-            // Step 1 - Initialise the Audio Context
-            // There can be only one!
-
-            function init() {
-                if (typeof AudioContext !== "undefined") {
-                    context = new AudioContext();
-                } else if (typeof webkitAudioContext !== "undefined") {
-                    context = new webkitAudioContext();
-                } else {
-                    throw new Error('AudioContext not supported. :(');
-                }
-                startSound();
-            }
-
-            // Step 2: Load our Sound using XHR
-
-            function startSound() {
-                // Note: this loads asynchronously
-                var request = new XMLHttpRequest();
-                request.open("GET", url, true);
-                request.responseType = "arraybuffer";
-
-                // Our asynchronous callback
-                request.onload = function() {
-                    document.getElementById('sound-start').style.background = "#060";
-                    var audioData = request.response;
-                    audioGraph(audioData);
-                };
-
-                request.send();
-            }
-
-
-            function _watch(){
-              var d = 20
-                , s = d * (Math.cos(Math.PI*(context.currentTime%10)/5))
-                , c = d * (Math.sin(Math.PI*(context.currentTime%10)/5))
-              window.webkitRequestAnimationFrame(_watch);
-              // z = front/back
-              // y = up/down?
-              // x = left/right ( left is negative )
-              /// (x, y, z)
-              panner.setPosition(c, 0, s);
-            }
-
-
-            // Finally: tell the source when to start
-
-            function playSound() {
-                // play the source now
-                soundSource.noteOn(context.currentTime);
-                _watch();
-            }
-
-            function stopSound() {
-                // stop the source now
-                soundSource.noteOff(context.currentTime);
-            }
-
-            // This is the code we are interested in:
-            function audioGraph(audioData) {
-                soundSource = context.createBufferSource();
-                soundBuffer = context.createBuffer(audioData, true);
-                soundSource.buffer = soundBuffer;
-
-                volumeNode = context.createGainNode();
-
-                //Set the volume
-                volumeNode.gain.value = 0.90;
-
-                // Panning
-                panner = context.createPanner();
-
-                // Wiring
-                soundSource.connect(volumeNode);
-                volumeNode.connect(panner);
-                panner.connect(context.destination);
-
-            }
-
-
-            init();
-
-        </script>
+        <script data-main="/scripts/main" src="/scripts/lib/require/require.js"></script>
 
 
     </body>

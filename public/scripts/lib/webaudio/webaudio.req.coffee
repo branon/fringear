@@ -1,0 +1,1 @@
+define( ['webaudio_js'], () -> WebAudio )
