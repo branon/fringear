@@ -11,8 +11,8 @@ define(['jQuery'
     initialize: ->
       _.bindAll @
       @template = _.template(templateText)
-      @sound.load 'audio/techno.mp3', (sound) =>
-        @sound = sound
+      @sound = app.audio.createSound()
+      @sound.load 'audio/techno.mp3', () =>
         @render()
 
 
@@ -32,7 +32,6 @@ define(['jQuery'
     start: ->
       @$el.addClass('stop').removeClass('start')
       @stopping = false;
-      @sound = app.audio.createSound()
       @sound.loop(true).volume(0.3).play()
       app.on 'tick', @tick
 
