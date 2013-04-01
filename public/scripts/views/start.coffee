@@ -12,7 +12,9 @@ define(['jQuery'
       _.bindAll @
       @template = _.template(templateText)
       @sound = app.audio.createSound()
+      $('body').append('<span>Loading...</span>')
       @sound.load 'audio/techno.mp3', () =>
+        $('body').append('<span>OK</span>')
         @render()
 
 
