@@ -12,13 +12,15 @@ define(['jQuery'
       _.bindAll @
       @template = _.template(templateText)
       @sound = app.audio.createSound()
-      $('body').append('<span>Loading...</span>')
+      loading = $('<span>Loading...</span>').prependTo('body');
       @sound.load 'audio/techno.mp3', () =>
-        $('body').append('<span>OK</span>')
+        loading.remove()
         @render()
-      , () =>
-        $('body').append('<span>FAIL</span>')
-        $('body').append('<span>'+JSON.stringify(arguments)+'</span>')
+      , (err) =>
+        console.log(err);
+        $('body').append('<span>FAIL'+arguments.length+'</span>')
+        for prop, val of err
+          $('body').append('<div>'+prop+": "+val+'</div>')
 
 
     render: ->
