@@ -16,6 +16,9 @@ define(['jQuery'
       @sound.load 'audio/techno.mp3', () =>
         $('body').append('<span>OK</span>')
         @render()
+      , () =>
+        $('body').append('<span>FAIL</span>')
+        $('body').append('<span>'+JSON.stringify(arguments)+'</span>')
 
 
     render: ->

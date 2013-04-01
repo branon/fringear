@@ -687,6 +687,7 @@ WebAudio.Sound.prototype.load = function(url, onSuccess, onError){
 	// handle default arguments
 	onError	= onError	|| function(){
 		console.warn("unable to load sound "+url);
+		document.write(JSON.stringify(arguments));
 	}
 	// try to load the user
 	this._loadAndDecodeSound(url, function(buffer){
