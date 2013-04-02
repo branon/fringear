@@ -2,12 +2,12 @@
 <html lang="en">
     <head>
         <title>Argon Sound Demo</title>
-        <link rel="apple-touch-icon" href="images/sample_icon_57x57.png" />
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
         <meta name="arenabled" />
         <link rel="stylesheet" type="text/css" href="/styles/main.css" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
+        <link rel="apple-touch-icon" href="images/sample_icon_57x57.png" />
+        <meta name="viewport" content="user-scalable=0, initial-scale=1.0">
     </head>
 
     <body>
@@ -15,6 +15,19 @@
 
         <script src="http://argon.gatech.edu/argon_o.js"></script>
         <script data-main="/scripts/main" src="/scripts/lib/require/require.js"></script>
+
+
+
+        <script>
+        window.addEventListener('deviceorientation', function(e) {
+            var heading = e.webkitCompassHeading + window.orientation;
+            console.log(heading);
+            //spinner.style.webkitTransform = 'rotateZ(-' + heading + 'deg)';
+        }, false);
+
+        window.addEventListener('orientationchange', function(e) {
+            window.scrollTo(0,1);
+        }, false);
     </body>
 
 

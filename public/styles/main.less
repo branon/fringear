@@ -1,53 +1,36 @@
 /**
 * Master CSS Style Sheet
 */
-// @import "vars";
 
-// @import "nav";
-// @import "modal";
-// @import "dropdown";
-
-// @import "home";
-// @import "scheduler";
-// @import "settings";
+/*
+                  iPhone 1-4s   iPhone 5
+Portrait  (WxH)   320 x 356 px  320 x 444 px
+Landscape (WxH)   480 x 196 px  568 x 196 px
+*/
 
 body{
-  background: #f1f1f1;
+  background: black;
+  //background: #f1f1f1;
+  min-height:416px;
 }
 
-
-#sound-start{
-  background-color: #a00;
+.start{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -150px 0 0 -150px;
+  width: 300px;
+  height: 300px;
   text-align: center;
-  color: white;
-  line-height: 100px;
-  width: 100px;
-  height: 100px;
-  cursor: pointer;
-  border: 3px solid rgba(0, 0, 0, .1);
-  font-weight: 400;
-  text-transform: uppercase;
-  font-family: 'Helvetica Neue', 'Helvetica', arial, sans-serif;
-  text-shadow: 0 0 1px #111;
-}
-
-
-
-.round{
-  margin: 100px auto 0 auto;
-  width: 100%;
-  text-align: center;
+  -webkit-transition: all .5s ease-in-out;
   canvas#start-canvas{
     width: 300px;
     height: 300px;
   }
+  &.started{
+    top: 0px;
+    left: 0px;
+  }
 }
-.start-view.start{
-  background: green;
-  color: white;
-  line-height: 300px;
-}
-.start-view.start:before{
-  content: 'CLICK TO START';
-  text-align: center;
-}
+
+

@@ -6,9 +6,12 @@ define(['jQuery'
 
   class StartView extends Backbone.View
 
-    className: 'start-view'
+    className: 'start-view start'
+
+    state: 0
 
     initialize: ->
+
       _.bindAll @
       @template = _.template(templateText)
       @sound = app.audio.createSound()
@@ -30,26 +33,43 @@ define(['jQuery'
       @canvas.height = $(@canvas).height()
       @ctx    = @canvas.getContext "2d"
 
+      @prevRad = @baseRad = (@canvas.width/2)
+
       app.on 'tick', @tick
 
 
-    start: ->
-      return @stop() if @started
-      @started = true
-      @stopping = false;
-      @sound.loop(true).volume(0.3).play()
+    clicked: ->
+      @state++
+      if @state is 1
+        @stopping = false;
+        @sound.loop(true).volume(0.3).play()
+      if @state is 2
+        @$el.addClass('started')
+      if @state is 3
+        @stop()
 
 
     events:
-      'click .round': 'start'
+      'click #start-canvas': 'clicked'
 
     stop: ->
-      @stopping = true;
-
+      # Need to do anything?
+      {}
 
     tick: ->
 
-      if @stopping
+
+      # clear the canvas
+      @ctx.clearRect(0, 0, @canvas.width, @canvas.height);
+      @ctx.fillStyle = "rgba(236, 182, 0, 1)";
+
+      baseRad = @prevRad
+
+      if @state is 2 and baseRad > @baseRad/2
+        @prevRad = baseRad = @prevRad * .98
+
+      ## If we are stopping
+      if @state is 3
         @volumeStart = @sound.volume() if not @volumeStart
         @sound.volume(@sound.volume()*.9)
         @$el.fadeTo(0, Math.max(@sound.volume()/@volumeStart + .01),1)
@@ -57,14 +77,13 @@ define(['jQuery'
         if @sound.volume() <= .001
           @teardown();
 
-      # clear the canvas
-      @ctx.clearRect(0, 0, @canvas.width, @canvas.height);
-      @ctx.fillStyle = "rgba(236, 182, 0, 1)";
-
-      baseRad = (@canvas.width/2)
+      ## If we ar moving to the top corner
+      if @state is 2
+        @sound.volume(@sound.volume()*.9) if @sound.volume() > 0.05
 
 
-      if @started
+      ## Lets draw some circles
+      if @state > 0
         # normalization of the scale
         scale = @sound.amplitude() * .5;
 
@@ -89,13 +108,25 @@ define(['jQuery'
       @ctx.strokeStyle = "rgba(236, 182, 0, 1)";
       @ctx.stroke()
 
-      if not @started
-        @ctx.textAlign = 'center'
-        @ctx.font = "14pt Helvetica";
-        @ctx.fillStyle = "rgba(255, 255, 255, 1)";
+
+      # Text Time
+      @ctx.lineWidth = 1;
+      @ctx.textAlign = 'center'
+      @ctx.font = "14pt sans-serif";
+      @ctx.strokeStyle = "rgba(0, 0, 0, 1)";
+      @ctx.fillStyle = "rgba(255, 255, 255, 1)";
+
+      if @state is 0
+        @ctx.strokeText "Press To Start", @canvas.width/2 + 1, @canvas.height/2 + 8
         @ctx.fillText "Press To Start", @canvas.width/2, @canvas.height/2 + 7
-        @ctx.strokeStyle = "rgba(255, 255, 255, 1)";
-        @ctx.strokeText "Press To Start", @canvas.width/2, @canvas.height/2 + 7
+
+      if @state is 1
+        @ctx.strokeText "Auburn", @canvas.width/2 + 1, @canvas.height/2 - 1
+        @ctx.strokeText "Aumbiance", @canvas.width/2 + 1, @canvas.height/2 + 17
+
+        @ctx.fillText "Auburn", @canvas.width/2, @canvas.height/2 - 2
+        @ctx.fillText "Aumbiance", @canvas.width/2, @canvas.height/2 + 16
+
 
 
     teardown: ->
