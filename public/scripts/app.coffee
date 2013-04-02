@@ -20,13 +20,31 @@ define(['jQuery'
 
     readyToStart: false
     startCalledButNotReady: false
+    frame = 1
 
     setupComplete: () =>
       @readyToStart = true
       @start() if @startCalledButNotReady
 
+
+    locationTick: =>
+      navigator.geolocation.getCurrentPosition (position) =>
+        @position = position.coords
+        @.trigger 'locationTick', @position
+
+
     masterTick: =>
+      # Track the frame
+      @frame=(@frame<<1)>>>0;
+      if @frame is 0
+        @frame=1
+
       @.trigger 'tick'
+
+      # Once every 32 frames ( ~2/second ) update the location
+      if @frame & 0x0000001
+        @locationTick()
+
       requestAnimFrame @masterTick
 
 

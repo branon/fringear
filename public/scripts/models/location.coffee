@@ -7,7 +7,7 @@ define(['jQuery'
     idAttribute: "_id"
 
     parse: (response) ->
-      console.log response
+      #console.log response
 
     defaults:
       rank: 0

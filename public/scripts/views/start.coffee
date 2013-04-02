@@ -35,12 +35,13 @@ define(['jQuery'
 
       @prevRad = @baseRad = (@canvas.width/2)
 
-      app.on 'tick', @tick
+      @tick()
 
 
     clicked: ->
       @state++
       if @state is 1
+        app.on 'tick', @tick
         @stopping = false;
         @sound.loop(true).volume(0.3).play()
       if @state is 2
