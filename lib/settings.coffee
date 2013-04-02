@@ -1,5 +1,4 @@
 express   = require 'express'
-partials  = require 'express-partials'
 fs        = require 'fs'
 
 exports.boot = (app) ->
@@ -35,9 +34,6 @@ exports.boot = (app) ->
 
     # Helpers
     (require '../lib/helpers').boot app
-
-    # load the express-partials middleware
-    app.use partials()
 
     app.use express.favicon()
     app.use app.router

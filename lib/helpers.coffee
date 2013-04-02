@@ -1,13 +1,9 @@
-everyauth = require 'everyauth'
-
 exports.boot = module.exports.boot = (app) ->
   app.use (req, res, next) ->
 
     res.locals.request = req
 
     res.locals.loggedIn = !!(req.session?.auth?.loggedIn)
-
-    res.locals.messages = (require 'express-messages-bootstrap')(req);
 
     res.locals.domain = process.env.DOMAIN;
 
