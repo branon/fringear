@@ -2,6 +2,9 @@
 
 awesome auburn ambience
 
+## Dependancies
+* Node.js >= 0.8.14
+* Heroku toolbelt (https://toolbelt.heroku.com/)[toolbelt.heroku.com]
 
 ## Install
 ```
@@ -20,6 +23,22 @@ Any evironmental variables you may need to set up are to be put in the `.env` fi
 
 It is safest to run this application using the `foreman` environement runner provided by the Heroku toolbelt.
 As a shortcut you may use `./run` to run the project. This requires nodemon to be installed either locally or globally.
+
+## Notes on Argon
+While the Argon system is looking quite promising, Auburn Ambiance does not leverage many of the visual aspects the argon browser is built for. This augmented experience is an audio one, leveraging mainly GPS / Compass and Audio APIs, leaving the camera unused completely (at this time).
+
+Because of this, the Argon AR Browser would not afford us and advantages above the default Safari browser shipped with all iPhones and iPods. Additionally, many phones including Android and Windows phones have browsers capable of supplying the application with the nessisary APIs, allowing for the application to be run on many phones.
+
+The page is still built to be Argon compatable (it can load in the Argon Browser and contains the proper meta tags), but is not limited to being viewed in Argon.
+
+## Basic file archetecture
+### Views
+For this application, there is only one main view file. This file is located at `/views/index.ejs`
+
+### Javascripts
+This is where the buildout of the application can become a little more complicated to trace. Aubrun Ambiance uses (http://backbonejs.org/)[Backbone.js] and (http://coffeescript.org/)[CoffeeScript] for the main javascript components. Backbone allows us to sepreate out the client-side controlers, models, and views, thus greatly simplifying the code development process. CoffeeScript allows us to write .. what some may call JavaScript shorthand, using simplified and enhanced syntax.
+
+All the javascript files can be found in `public/scripts`.
 
 ## Pieces
 
