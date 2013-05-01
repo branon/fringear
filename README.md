@@ -1,6 +1,6 @@
-# fringear
+# Aurburn Ambiance
 
-awesome auburn ambience
+A mobile application that utalizes the sounds of Aubrun Avenue, along with user location tracking to guide individuals down the avenue and to engage users in an auditory, historical experience. As users move throughout the avenue, ambient sounds are presented, simulating the auditory experience of those who walked the avenue in its bustling past. Relevant voiceovers and textual information are also presented to the explorer as they reach destinations of noted historical significance, making for a truly immersive auditory adventure along Auburn Avenue.
 
 ## Dependancies
 * Node.js >= 0.8.14
